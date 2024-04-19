@@ -101,6 +101,7 @@ namespace Ellyality.FTP
                 catch (Exception ex) { Console.WriteLine(ex.ToString()); }
                 /* Resource Cleanup */
                 localFileStream.Close();
+                ftpRequest.Abort();
                 ftpStream.Close();
                 ftpRequest = null;
             }
