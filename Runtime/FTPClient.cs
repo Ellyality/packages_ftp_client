@@ -67,44 +67,7 @@ namespace Ellyality.FTP
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
             return;
         }
-
-		public void uploadbyte(string remoteFile, byte[] localData)
-		{
-			try
-			{
-				/* Create an FTP Request */
-				ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host + "/" + remoteFile);
-				/* Log in to the FTP Server with the User Name and Password Provided */
-				ftpRequest.Credentials = new NetworkCredential(user, pass);
-				/* When in doubt, use these options */
-				ftpRequest.UseBinary = true;
-				ftpRequest.UsePassive = true;
-				ftpRequest.KeepAlive = true;
-				/* Specify the Type of FTP Request */
-				ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
-				/* Establish Return Communication with the FTP Server */
-				ftpStream = ftpRequest.GetRequestStream();
-				/* Buffer for the Downloaded Data */
-				Stream localFileStream = new MemoryStream(localData);
-				byte[] byteBuffer = new byte[bufferSize];
-				int bytesSent = localFileStream.Read(byteBuffer, 0, bufferSize);
-				/* Upload the File by Sending the Buffered Data Until the Transfer is Complete */
-				try
-				{
-					while (bytesSent != 0)
-					{
-						ftpStream.Write(byteBuffer, 0, bytesSent);
-						bytesSent = localFileStream.Read(byteBuffer, 0, bufferSize);
-					}
-				}
-				catch (Exception ex) { Console.WriteLine(ex.ToString()); }
-				localFileStream.Close();
-				ftpStream.Close();
-				ftpRequest = null;
-			}
-			catch (Exception ex) { Console.WriteLine(ex.ToString()); }
-			return;
-		}
+		
 
         /* Upload File */
         public void upload(string remoteFile, string localFile)
@@ -118,7 +81,7 @@ namespace Ellyality.FTP
                 /* When in doubt, use these options */
                 ftpRequest.UseBinary = true;
                 ftpRequest.UsePassive = true;
-                ftpRequest.KeepAlive = true;
+                ftpRequest.KeepAlive = false;
                 /* Specify the Type of FTP Request */
                 ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
                 /* Establish Return Communication with the FTP Server */
